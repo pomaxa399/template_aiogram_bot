@@ -10,6 +10,9 @@ class BotConfig(BaseModel):
     token: str
 
 
+class BotAdminsConfig(BaseModel):
+    id: int
+
 class DatabaseConfig(BaseModel):
     url: PostgresDsn
     echo: bool = False
@@ -36,10 +39,11 @@ class Settings(BaseSettings):
 
     bot: BotConfig
     db: DatabaseConfig
+    admin: BotAdminsConfig
 
 
 settings = Settings()
 
 
 if __name__ == "__main__":
-    print(settings.db.echo)
+    print(settings.admin.id)
