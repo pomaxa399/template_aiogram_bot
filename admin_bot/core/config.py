@@ -6,6 +6,10 @@ from pydantic_settings import (
 )
 
 
+class BotConfig(BaseModel):
+    token: str
+
+
 class DatabaseConfig(BaseModel):
     url: PostgresDsn
     echo: bool = False
@@ -24,11 +28,18 @@ class DatabaseConfig(BaseModel):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
-        case_sensitive=False)
+        env_file=('../.env.template', '../.env'),
+        case_sensitive=False,
+        env_nested_delimiter="__",
+        env_prefix="APP_CONFIG__",
+    )
 
-    bot_token: str
+    bot: BotConfig
     db: DatabaseConfig
 
 
 settings = Settings()
+
+
+if __name__ == "__main__":
+    print(settings.db.echo)
